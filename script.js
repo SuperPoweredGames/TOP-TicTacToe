@@ -22,12 +22,6 @@ function Gameboard  () {
     };
     
     const placeToken = (row, column, player) => {
-        /*if(board[row][column].getValue != 0) {
-            printLine(board[row][column].Cell.getValue);
-            alert("Space is taken");
-            return;
-        }*/
-
         board[row][column].addToken(player);    
     };
 
@@ -50,37 +44,6 @@ function GameplayLoop (playerOneName = "Player One",
                        playerTwoName = "Player Two") {
     const board = Gameboard();
 
-    const UpdateButtons = () => {
-        buttons.forEach(btn => {
-            btn.innerText = btn.className;
-            btn.innerText = board.getBoard()[GetGridCoords(parseInt(btn.className))[0]][GetGridCoords(parseInt(btn.className))[1]].getValue();
-            
-            /*if(board[btn.className].token === 0) {
-                
-            }*/
-    
-            /*btn.innerText = board[btn.className].token === 0 ? "" : 
-                btn.innerText = board[btn.className].token === 1 ? "O" : "X";*/
-            
-        });
-    };
-
-    buttons.forEach(btn => {
-
-        UpdateButtons();
-        btn.addEventListener("click", () => {
-            printLine(board.getBoard()[0][0].getValue());
-            printLine(board.printBoard());
-            
-            //printLine(GetGridCoords(parseInt(btn.className)));
-
-            playRound(GetGridCoords(parseInt(btn.className))[0],
-                        GetGridCoords(parseInt(btn.className))[1]);
-            //check if cell free
-            //place token
-        })
-    });
-
     const players = [
         {
             name: playerOneName,
@@ -100,6 +63,99 @@ function GameplayLoop (playerOneName = "Player One",
 
     const getActivePlayer = () => activePlayer;
 
+    function GetGridCoords(index) {
+        if(index === 0) return [0,0];
+        if(index === 1) return [1,0];
+        if(index === 2) return [2,0];
+        if(index === 3) return [0,1];
+        if(index === 4) return [1,1];
+        if(index === 5) return [2,1];
+        if(index === 6) return [0,2];
+        if(index === 7) return [1,2];
+        if(index === 8) return [2,2];
+    }
+
+    const UpdateButtons = () => {
+        buttons.forEach(btn => {
+            if(board.getBoard()
+                [GetGridCoords(parseInt(btn.className))[0]]
+                [GetGridCoords(parseInt(btn.className))[1]]
+                .getValue() === 0) {
+                
+                    btn.innerText = "";
+            }
+            else if(board.getBoard()
+                [GetGridCoords(parseInt(btn.className))[0]]
+                [GetGridCoords(parseInt(btn.className))[1]]
+                .getValue() === 1) {
+
+                    btn.innerText = "O";
+            }
+            else {
+                btn.innerText = "X";
+            }            
+        });
+    };
+
+    function checkForWinner() {
+        //Columns Checks
+        if(board.getBoard()[0][0].getValue() != 0
+            && board.getBoard()[0][0].getValue() == board.getBoard()[0][1].getValue()
+            && board.getBoard()[0][0].getValue() == board.getBoard()[0][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        } else if (board.getBoard()[1][0].getValue() != 0
+        && board.getBoard()[1][0].getValue() == board.getBoard()[1][1].getValue()
+        && board.getBoard()[1][0].getValue() == board.getBoard()[1][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        } else if (board.getBoard()[2][0].getValue() != 0
+        && board.getBoard()[2][0].getValue() == board.getBoard()[2][1].getValue()
+        && board.getBoard()[2][0].getValue() == board.getBoard()[2][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        }
+        //Rows Checks
+        else if (board.getBoard()[0][0].getValue() != 0
+        && board.getBoard()[0][0].getValue() == board.getBoard()[1][0].getValue()
+        && board.getBoard()[0][0].getValue() == board.getBoard()[2][0].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        } else if (board.getBoard()[0][1].getValue() != 0
+        && board.getBoard()[0][1].getValue() == board.getBoard()[1][1].getValue()
+        && board.getBoard()[0][1].getValue() == board.getBoard()[2][1].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        } else if (board.getBoard()[0][2].getValue() != 0
+        && board.getBoard()[0][2].getValue() == board.getBoard()[1][2].getValue()
+        && board.getBoard()[0][2].getValue() == board.getBoard()[2][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        }
+        //Diagonal Checks
+        else if (board.getBoard()[0][0].getValue() != 0
+        && board.getBoard()[0][0].getValue() == board.getBoard()[1][1].getValue()
+        && board.getBoard()[0][0].getValue() == board.getBoard()[2][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        } else if (board.getBoard()[0][2].getValue() != 0
+        && board.getBoard()[0][2].getValue() == board.getBoard()[1][1].getValue()
+        && board.getBoard()[0][2].getValue() == board.getBoard()[0][2].getValue()) {
+            
+                alert(`Player ${getActivePlayer} wins`);
+        }
+    }
+
+    buttons.forEach(btn => {
+
+        UpdateButtons();
+        
+        btn.addEventListener("click", () => {
+            playRound(GetGridCoords(parseInt(btn.className))[0],
+                        GetGridCoords(parseInt(btn.className))[1]);
+        })
+    });
+
     const printNewRound = () => {
 
         console.log(`${getActivePlayer().name}'s turn.`);
@@ -107,12 +163,18 @@ function GameplayLoop (playerOneName = "Player One",
 
     const playRound = (row, column) => {
         
+
+
+        if(board.getBoard()[row][column].getValue() != 0) {
+            alert("Space is taken");
+            return;
+        }
+
         board.placeToken(row, column, getActivePlayer().token);
         UpdateButtons();
+        checkForWinner();
         switchPlayerTurn();
     };
-
-    
 
     return {
         playRound,
@@ -120,35 +182,4 @@ function GameplayLoop (playerOneName = "Player One",
     };
 }
 
-function GetGridCoords(index) {
-    if(index === 0) return [0,0];
-    if(index === 1) return [1,0];
-    if(index === 2) return [2,0];
-    if(index === 3) return [0,1];
-    if(index === 4) return [1,1];
-    if(index === 5) return [2,1];
-    if(index === 6) return [0,2];
-    if(index === 7) return [1,2];
-    if(index === 8) return [2,2];
-}
-
 const game = GameplayLoop();
-
-function checkForWinner() {
-    //Check if 3 matching symbols in row0
-    //Check if 3 matching symbols in row1
-    //Check if 3 matching symbols in row2
-    //Check if 3 matching symbols in row0[0], row1[0], row2[0]
-    //Check if 3 matching symbols in row0[1], row1[1], row2[1]
-    //Check if 3 matching symbols in row0[2], row1[2], row2[2]
-    //Check if 3 matching symbols in row0[0], row1[1], row2[2]
-    //Check if 3 matching symbols in row0[2], row1[1], row2[0]
-    //else next turn
-}
-
-
-function printLine (output) {
-    newLine = document.createElement("p");
-    newLine.innerText = output;
-    visualConsole.appendChild(newLine);
-}

@@ -19,6 +19,7 @@ button {
     background-color: white;
     border-style: none;
     height: 10vw;
+    font-size: 2em;
 }
 
 button:hover {
