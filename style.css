@@ -1,0 +1,26 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: bisque;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw;
+    gap: 5px;
+}
+
+button {
+    background-color: white;
+    border-style: none;
+    height: 10vw;
+}
+
+button:hover {
+    background-color: aliceblue;
+}
