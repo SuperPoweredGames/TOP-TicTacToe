@@ -7,28 +7,27 @@ const replayButton = document.querySelector(".replay");
 function Gameboard  () {
     const rows = 3;
     const columns = 3;
-    const board = []; //Create empty array for rows
+    let board = []; //Create empty array for rows
 
-    for(i = 0; i < rows; i++) {
-        board[i] = []; //Create empty array for columns
+    function NewBoard () {
+        board = [];
 
-        for(j = 0; j < columns; j++) {
-            board[i].push(Cell()); //Push cells into each empty array slot
+        for(i = 0; i < rows; i++) {
+            board[i] = []; //Create empty array for columns
+
+            for(j = 0; j < columns; j++) {
+                board[i].push(Cell()); //Push cells into each empty array slot
+            }
         }
     }
 
     const getBoard = () => board;
 
-    const printBoard = () => {
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
-        return boardWithCellValues;
-    };
-    
     const placeToken = (row, column, player) => {
         board[row][column].addToken(player);    
     };
 
-    return { getBoard, placeToken, printBoard };
+    return { getBoard, placeToken, NewBoard };
 }
 
 function Cell () {
@@ -46,8 +45,14 @@ function Cell () {
 function GameplayLoop (playerOneName = "Player One",
                        playerTwoName = "Player Two") {
     const board = Gameboard();
+    board.NewBoard();
     let gameRunning = true;
+    
     replayButton.style.visibility = "hidden";
+    
+    replayButton.addEventListener("click", () => {
+        ResetGame();
+    })
 
     const players = [
         {
@@ -59,6 +64,9 @@ function GameplayLoop (playerOneName = "Player One",
             token: 2
         }
     ];
+
+    players[0].name = window.prompt("Enter Player Name","Player One");
+    players[1].name = window.prompt("Enter Player Name","Player Two");
 
     let activePlayer = players[0];
 
@@ -196,6 +204,19 @@ function GameplayLoop (playerOneName = "Player One",
 
     function showButton () {
         replayButton.style.visibility = "visible";
+    }
+
+    function hideButton () {
+        replayButton.style.visibility = "hidden";
+    }
+
+    function ResetGame() {
+        board.NewBoard();
+        gameRunning = true;
+        UpdateButtons();
+        turnText.innerText = `It's ${getActivePlayer().name}'s turn`;
+        result.innerText = "";
+        hideButton();
     }
 
     return {

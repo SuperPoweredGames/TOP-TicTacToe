@@ -37,3 +37,9 @@ button::content {
 .result {
     font-size: 4vh;
 }
+
+.replay {
+    font-size: 3vh;
+    margin-top: 2vh;
+    border-radius: 0.3em;
+}
