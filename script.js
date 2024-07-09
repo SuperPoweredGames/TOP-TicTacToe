@@ -1,5 +1,6 @@
 const visualConsole = document.querySelector(".console");
 const buttons = document.querySelectorAll("button");
+const result = document.querySelector(".result");
 
 function Gameboard  () {
     const rows = 3;
@@ -43,6 +44,7 @@ function Cell () {
 function GameplayLoop (playerOneName = "Player One",
                        playerTwoName = "Player Two") {
     const board = Gameboard();
+    let gameRunning = true;
 
     const players = [
         {
@@ -103,46 +105,54 @@ function GameplayLoop (playerOneName = "Player One",
             && board.getBoard()[0][0].getValue() == board.getBoard()[0][1].getValue()
             && board.getBoard()[0][0].getValue() == board.getBoard()[0][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+                result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         } else if (board.getBoard()[1][0].getValue() != 0
         && board.getBoard()[1][0].getValue() == board.getBoard()[1][1].getValue()
         && board.getBoard()[1][0].getValue() == board.getBoard()[1][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         } else if (board.getBoard()[2][0].getValue() != 0
         && board.getBoard()[2][0].getValue() == board.getBoard()[2][1].getValue()
         && board.getBoard()[2][0].getValue() == board.getBoard()[2][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         }
         //Rows Checks
         else if (board.getBoard()[0][0].getValue() != 0
         && board.getBoard()[0][0].getValue() == board.getBoard()[1][0].getValue()
         && board.getBoard()[0][0].getValue() == board.getBoard()[2][0].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         } else if (board.getBoard()[0][1].getValue() != 0
         && board.getBoard()[0][1].getValue() == board.getBoard()[1][1].getValue()
         && board.getBoard()[0][1].getValue() == board.getBoard()[2][1].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         } else if (board.getBoard()[0][2].getValue() != 0
         && board.getBoard()[0][2].getValue() == board.getBoard()[1][2].getValue()
         && board.getBoard()[0][2].getValue() == board.getBoard()[2][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         }
         //Diagonal Checks
         else if (board.getBoard()[0][0].getValue() != 0
         && board.getBoard()[0][0].getValue() == board.getBoard()[1][1].getValue()
         && board.getBoard()[0][0].getValue() == board.getBoard()[2][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         } else if (board.getBoard()[0][2].getValue() != 0
         && board.getBoard()[0][2].getValue() == board.getBoard()[1][1].getValue()
         && board.getBoard()[0][2].getValue() == board.getBoard()[0][2].getValue()) {
             
-                alert(`Player ${getActivePlayer} wins`);
+            result.innerText = `${getActivePlayer().name} wins!`;
+                gameRunning = false;
         }
     }
 
@@ -163,7 +173,7 @@ function GameplayLoop (playerOneName = "Player One",
 
     const playRound = (row, column) => {
         
-
+        if(!gameRunning) return;
 
         if(board.getBoard()[row][column].getValue() != 0) {
             alert("Space is taken");
