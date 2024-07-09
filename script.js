@@ -1,6 +1,8 @@
 const visualConsole = document.querySelector(".console");
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll("#gridbutton");
 const result = document.querySelector(".result");
+const turnText = document.querySelector(".turn");
+const replayButton = document.querySelector(".replay");
 
 function Gameboard  () {
     const rows = 3;
@@ -45,6 +47,7 @@ function GameplayLoop (playerOneName = "Player One",
                        playerTwoName = "Player Two") {
     const board = Gameboard();
     let gameRunning = true;
+    replayButton.style.visibility = "hidden";
 
     const players = [
         {
@@ -61,9 +64,12 @@ function GameplayLoop (playerOneName = "Player One",
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        turnText.innerText = `It's ${getActivePlayer().name}'s turn`;
     };
 
     const getActivePlayer = () => activePlayer;
+
+    turnText.innerText = `It's ${getActivePlayer().name}'s turn`;
 
     function GetGridCoords(index) {
         if(index === 0) return [0,0];
@@ -166,11 +172,6 @@ function GameplayLoop (playerOneName = "Player One",
         })
     });
 
-    const printNewRound = () => {
-
-        console.log(`${getActivePlayer().name}'s turn.`);
-      };
-
     const playRound = (row, column) => {
         
         if(!gameRunning) return;
@@ -183,8 +184,19 @@ function GameplayLoop (playerOneName = "Player One",
         board.placeToken(row, column, getActivePlayer().token);
         UpdateButtons();
         checkForWinner();
-        switchPlayerTurn();
+
+        if(gameRunning){
+            switchPlayerTurn(); 
+        } else {
+            turnText.innerText = `Game Over! Play Again?`;
+            showButton ();
+            return;
+        }
     };
+
+    function showButton () {
+        replayButton.style.visibility = "visible";
+    }
 
     return {
         playRound,

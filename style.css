@@ -13,15 +13,27 @@ body {
     display: grid;
     grid-template-columns: 10vw 10vw 10vw;
     gap: 5px;
+    background-color: rgb(190, 255, 255);
+    padding: 1em;
+    margin-bottom: 2em;
 }
 
-button {
-    background-color: white;
+.grid button {
+    background-image: linear-gradient(rgb(126, 213, 253), rgb(85, 173, 255));
     border-style: none;
     height: 10vw;
     font-size: 2em;
+    border-radius: 0.2em;
 }
 
 button:hover {
-    background-color: aliceblue;
+    background-color: rgb(55, 186, 247);
+}
+
+button::content {
+    background-color: brown;
+}
+
+.result {
+    font-size: 4vh;
 }
