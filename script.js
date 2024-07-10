@@ -161,9 +161,9 @@ function GameplayLoop (playerOneName = "Player One",
             
             result.innerText = `${getActivePlayer().name} wins!`;
                 gameRunning = false;
-        } else if (board.getBoard()[0][2].getValue() != 0
-        && board.getBoard()[0][2].getValue() == board.getBoard()[1][1].getValue()
-        && board.getBoard()[0][2].getValue() == board.getBoard()[0][2].getValue()) {
+        } else if (board.getBoard()[2][0].getValue() != 0
+        && board.getBoard()[2][0].getValue() == board.getBoard()[1][1].getValue()
+        && board.getBoard()[2][0].getValue() == board.getBoard()[0][2].getValue()) {
             
             result.innerText = `${getActivePlayer().name} wins!`;
                 gameRunning = false;
